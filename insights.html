@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Top-up</title>
+    <link rel="icon" href="axe.png" />
+
+    <style>
+
+    </style>
+</head>
+<body>
+    <section>
+        <form id="currency-form">
+            <label for="base-currency">Base Currency: </label>
+            <input type="text" id="base-currency" name="base" required>
+            <br>
+            <label for="target-currencies">Target Currencies (comma-separated): </label>
+            <input type="text" id="target-currencies" name="symbols" required>
+            <br>
+            <button type="submit">Fetch Exchange Rates</button>
+        </form>
+        
+        <div id="result"></div>
+        
+    </section>
+
+    <script>
+        // The Freecurrencyapi class definition
+        class Freecurrencyapi {
+            // ... (copy the provided class code)
+        }
+    
+        // User input handling
+        const form = document.getElementById('currency-form');
+        const resultDiv = document.getElementById('result');
+    
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
+    
+            const baseCurrencyInput = document.getElementById('base-currency');
+            const targetCurrenciesInput = document.getElementById('target-currencies');
+    
+            const baseCurrency = baseCurrencyInput.value;
+            const targetCurrencies = targetCurrenciesInput.value;
+    
+            // Create an API instance
+            const api = new Freecurrencyapi('fca_live_61pb3HjuZYM8TIWTw4kaUqkEppIBCel2TnYqtAQA');
+    
+            // Make API call
+            api.latest({ base: baseCurrency, symbols: targetCurrencies })
+                .then(data => {
+                    displayExchangeRates(data);
+                })
+                .catch(error => {
+                    console.error(error);
+                    resultDiv.textContent = 'Error fetching exchange rates.';
+                });
+        });
+    
+        function displayExchangeRates(data) {
+            // Process and display the API response data
+            // Modify this function to format and display the data as needed
+            resultDiv.textContent = JSON.stringify(data, null, 2);
+        }
+    </script>
+    
+</body>
+</html>

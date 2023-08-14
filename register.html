@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registeration</title>
+    <link rel="icon" href="axe.png" />
+    <script src="https://smtpjs.com/v3/smtp.js"></script>
+
+    <style>
+        body {
+            background-color: #4169E1;
+        }
+
+        table {
+            margin: auto;
+            text-align: center;
+        }
+
+        td {
+            padding: 10px;
+        }
+
+        article {
+            border-style: solid;
+            background-color: beige;
+            width: 50%;
+            margin: auto;
+            text-align: center;
+        }
+    </style>
+</head>
+<section>
+
+    <article>
+        <h2>AX-Changer</h2>
+        <table>
+            <tr>
+                <td>
+                    <label for="fname">Full Name</label>
+                    <br>
+                    <input type="text" name="fname" id="fname">
+
+                    <br><br>
+
+                    <label for="pef">Preffered name</label>
+                    <br>
+                    <input type="type" name="pef" id="pef">
+
+                    <br><br>
+
+                    <label for="contact">Contact number</label>
+                    <br>
+                    <input type="number" name="contact" id="contact">
+
+                    <br><br>
+
+                    <label for="e-mail">Email Address</label>
+                    <br>
+                    <input type="text" name="e-mail" id="e-mail">
+
+                    <br>
+
+                    <button onclick="otp()">Send OTP</button>
+                    <input type="number" id="CHK_OTP" style="width: 70px;">
+
+                    <br><br>
+
+                    <button id="verify">Verify OTP</button>
+
+                    <br><br>
+
+                    <label for="pass">Password</label>
+                    <br>
+                    <input type="password" name="pass" id="pass">
+
+                    <br><br>
+
+                    <label for="pass2">Confirm Password</label>
+                    <br>
+                    <input type="password" name="pass2" id="pass2">
+
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <button onclick="register()">Register</button>
+                </td>
+            </tr>
+        </table>
+    </article>
+</section>
+
+<script>
+    function otp() {
+        let mail = document.getElementById("e-mail").value;
+
+        // Generating OTP
+        let ONE_TIME = Math.floor(Math.random() * 1000);
+
+        let emailbody = `<h1>Welcome to AX-Changer</h1>
+        <h2>The OTP is </h2>${ONE_TIME}`;
+
+        Email.send({
+            Host: "smtp.elasticemail.com",
+            Username: "secondsyahir3@gmail.com",
+            Password: "123CAF81407C954FE937F466282D3DCBCBED",
+            To: mail,
+            From: "axchanger22016443@gmail.com",
+            Subject: "Test email",
+            Body: emailbody
+        }).then(message => {
+            if (message === "OK") {
+                alert("OTP has been sent to your email" + " " + mail)
+
+                let ENTER_OTP = document.getElementById('CHK_OTP');
+                let verify = document.getElementById("verify");
+
+                verify.addEventListener("click", () => {
+                    // Check validity of email
+                    if (ONE_TIME == ENTER_OTP.value) {
+                        alert("Email has been verified");
+                        return Boolean(true)
+                    }
+                    else {
+                        alert("Invalid OTP");
+                    }
+
+                })
+            }
+        }
+        );
+    }
+
+    function register() {
+        let fname = document.getElementById("fname").value;
+        let pef = document.getElementById("pef").value;
+        let contact = document.getElementById("contact").value;
+        let email = document.getElementById("e-mail").value;
+        let pass = document.getElementById("pass").value;
+        let pass2 = document.getElementById("pass2").value;
+
+        let user_data = new Array();
+        user_data = JSON.parse(localStorage.getItem("user")) ? JSON.parse(localStorage.getItem("user")) : []
+        if (user_data.some((v) => v.email === email)) {
+            alert("Existing user");
+        }
+        else if (pass != pass2) {
+            alert("Password Not Match")
+        }
+        else {
+            user_data.push({
+                "full name": fname,
+                "preffered name": pef,
+                "Contact no.": contact,
+                "email": email,
+                "password": pass2,
+            })
+            localStorage.setItem("user", JSON.stringify(user_data));
+            alert("Registered")
+            window.location.href = "index.html";
+        }
+    }
+</script>
+
+<body>
+
+</body>
+
+</html>
