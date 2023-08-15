@@ -92,11 +92,11 @@
 </section>
 
 <script>
+    // Generating OTP
+    let ONE_TIME = Math.floor(Math.random() * 1000);
+
     function otp() {
         let mail = document.getElementById("e-mail").value;
-
-        // Generating OTP
-        let ONE_TIME = Math.floor(Math.random() * 1000);
 
         let emailbody = `<h1>Welcome to AX-Changer</h1>
         <h2>The OTP is </h2>${ONE_TIME}`;
@@ -107,7 +107,7 @@
             Password: "123CAF81407C954FE937F466282D3DCBCBED",
             To: mail,
             From: "axchanger22016443@gmail.com",
-            Subject: "Test email",
+            Subject: "Verification Code",
             Body: emailbody
         }).then(message => {
             if (message === "OK") {
@@ -140,25 +140,34 @@
         let pass = document.getElementById("pass").value;
         let pass2 = document.getElementById("pass2").value;
 
+        let ENTER_OTP = document.getElementById('CHK_OTP');
+        let verify = document.getElementById("verify");
+
         let user_data = new Array();
         user_data = JSON.parse(localStorage.getItem("user")) ? JSON.parse(localStorage.getItem("user")) : []
-        if (user_data.some((v) => v.email === email)) {
-            alert("Existing user");
-        }
-        else if (pass != pass2) {
-            alert("Password Not Match")
+
+        if (ONE_TIME == ENTER_OTP.value) {
+            if (user_data.some((v) => v.email === email)) {
+                alert("Existing user");
+            }
+            else if (pass != pass2) {
+                alert("Password Not Match")
+            }
+            else {
+                user_data.push({
+                    "full name": fname,
+                    "name": pef,
+                    "Contact no.": contact,
+                    "email": email,
+                    "password": pass2,
+                })
+                localStorage.setItem("user", JSON.stringify(user_data));
+                alert("Registered")
+                window.location.href = "index.html";
+            }
         }
         else {
-            user_data.push({
-                "full name": fname,
-                "preffered name": pef,
-                "Contact no.": contact,
-                "email": email,
-                "password": pass2,
-            })
-            localStorage.setItem("user", JSON.stringify(user_data));
-            alert("Registered")
-            window.location.href = "index.html";
+            alert("Fill all details");
         }
     }
 </script>

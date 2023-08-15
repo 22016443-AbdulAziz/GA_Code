@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -159,8 +160,14 @@
 
             let user_data = new Array();
             user_data = JSON.parse(localStorage.getItem("user")) ? JSON.parse(localStorage.getItem("user")) : []
-            if (user_data.some((v) => v.email === username && v.password === password)) {
+            if (user_data.some((v) => v.email === username && v.password === password)) 
+            {
                 alert("login successful");
+                let current_user = user_data.filter((v) => {
+                    return v.email == username && v.password == password
+                })[0]
+
+                localStorage.setItem("name", current_user.name)
                 window.location.href = "home.html"
             }
             else {

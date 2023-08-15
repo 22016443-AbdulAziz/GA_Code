@@ -19,14 +19,14 @@
     <section class="main">
         <h1>AX-changer</h1>
 
-        <form>
+        <form id="exchangeForm">
             <label for="wallet">Choose wallet</label>
-            <select name="wallet" id="wallet">
-                <option value="1">wallet1</option>
-                <option value="2">wallet2</option>
-                <option value="3">wallet3</option>
-                <option value="4">wallet4</option>
-                <option value="5">wallet5</option>
+            <select name="wallet" id="walletFrom">
+                <option value="SGD">SGD</option>
+                <option value="USD">USD</option>
+                <option value="HKD">HKD</option>
+                <option value="JPY">JPY</option>
+                <option value="MYR">MYR</option>
             </select>
 
             <br><br>
@@ -35,12 +35,12 @@
             <br><br>
 
             <label for="wallet">Choose wallet</label>
-            <select name="wallet" id="wallet">
-                <option value="2">wallet2</option>
-                <option value="1">wallet1</option>
-                <option value="3">wallet3</option>
-                <option value="4">wallet4</option>
-                <option value="5">wallet5</option>
+            <select name="wallet" id="walletTo">
+                <option value="USD">USD</option>
+                <option value="SGD">SGD</option>
+                <option value="HKD">HKD</option>
+                <option value="JPY">JPY</option>
+                <option value="MYR">MYR</option>
             </select>
 
             <br><br>
@@ -49,6 +49,50 @@
         <br>
         <button onclick="window.location.href = 'home.html'">Back</button>
     </section>
+    <script>
+        document.getElementById('exchangeForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            if (localStorage.getItem("name") in localStorage) {
+                const fromWallet = document.getElementById('walletFrom').value;
+                const toWallet = document.getElementById('walletTo').value;
+                const exchangeAmount = parseFloat(document.getElementById('amt').value);
+        
+                // Assuming exchange rates (example values)
+                const exchangeRates = {
+                    "SGD": 1,
+                    "USD": 0.74,
+                    "HKD": 5.78,
+                    "JPY": 80.2,
+                    "MYR": 3.13
+                };
+                const userData = JSON.parse(localStorage.getItem(localStorage.getItem("name")));
+                const fromBalance = userData[0][fromWallet];
+                const toBalance = userData[0][toWallet];
+                
+                const exchangedFromAmount = exchangeAmount * exchangeRates[fromWallet];
+                const exchangedToAmount = exchangeAmount * exchangeRates[toWallet];
+
+                if (fromBalance >= exchangedFromAmount) {
+                    userData[0][fromWallet] -= exchangedFromAmount;
+                    userData[0][toWallet] += exchangedToAmount;
+        
+                    // Update the user_balance array in local storage
+                    localStorage.setItem(localStorage.getItem("name"), JSON.stringify(userData));
+        
+                    alert(`Exchanged ${exchangeAmount} ${fromWallet} to ${exchangedToAmount} ${toWallet}`);
+                } else {
+                    alert("Insufficient balance for exchange.");
+                }
+            }
+            else {
+            // Handle the case where user data is not present in local storage
+            alert("User data not found. Please log in or create an account.");
+        }
+            });
+            
+    </script>
+    
+        
 </body>
 
 </html>
