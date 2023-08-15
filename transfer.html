@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <link rel="icon" href="axe.png" />
+
+    <!--Bootstrap CSS Link-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background-color: beige;
+        }
+
+        .design {
+            border-style: solid;
+            text-align: center;
+            padding: 10px;
+        }
+
+        .design2 {
+            border-style: solid;
+            text-align: center;
+            background: rgba(208, 208, 208, 0.3);
+            padding: 10px;
+        }
+
+        table {
+            width: 100%;
+            text-align: center;
+        }
+
+        .main {
+            margin: auto;
+            text-align: center;
+            font-size: larger;
+        }
+    </style>
+</head>
+
+<body>
+    <section class="main">
+
+        <form id="exchangeForm">
+            <label for="wallet">Choose wallet</label>
+            <select name="wallet" id="walletFrom">
+                <option value="SGD">SGD</option>
+                <option value="USD">USD</option>
+                <option value="HKD">HKD</option>
+                <option value="JPY">JPY</option>
+                <option value="MYR">MYR</option>
+            </select>
+        </form>
+        <br><br>
+
+        <label>$</label>
+        <input style="width: 100px; height: 30px; font-size: large;" type="number" name="amt" id="amt">
+
+        <br><br>
+
+        <label>Recipient's Public Address</label>
+        <input style="width: 500px; height: 30px; font-size: large;" type="text" name="recipientAddress"
+            id="recipientAddress">
+
+        <br><br>
+        <input type="submit" value="Transfer" onclick="transferFunds()">
+        <br><br>
+        <button onclick="window.location.href = 'home.html'">Back</button>
+
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function transferFunds() {
+            const recipientAddress = document.getElementById("recipientAddress").value;
+            const amount = document.getElementById("amt").value;
+
+            // Assuming CryptoNetworkAPI is an imaginary API to send cryptocurrency
+            // Replace this with the actual API or library you're using
+            CryptoNetworkAPI.sendFunds(recipientAddress, amount)
+                .then(result => {
+                    alert(`Successfully sent ${amount} to ${recipientAddress}`);
+                })
+                .catch(error => {
+                    console.error("Error sending funds:", error);
+                    alert("Error sending funds. Please try again.");
+                });
+        }
+
+    </script>
+</body>
+
+</html>

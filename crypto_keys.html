@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crypto Keys</title>
+    <link rel="icon" href="axe.png">
+    <style>
+        body {
+            background-color: beige;
+        }
+        .main {
+            margin: auto;
+            text-align: center;
+            font-size: larger;
+        }
+    </style>
+</head>
+
+<body>
+    <section class="main">
+    <h1>Your Crypto Keys</h1>
+
+    <div>
+        <h2>Public Key</h2>
+        <pre id="publicKeyDisplay"></pre>
+    </div>
+
+    <div>
+        <h2>Private Key</h2>
+        <pre id="privateKeyDisplay"></pre>
+    </div>
+</section>
+
+    <script>
+        // Retrieve the user's data and display keys
+        function displayKeys() {
+            let user_data = JSON.parse(localStorage.getItem("user"));
+
+            if (user_data && user_data.length > 0) {
+                // Assuming you want to display keys of the first user (you can modify this logic)
+                const user = user_data[0];
+
+                const publicKey = user["public key"];
+                const privateKey = user["private key"];
+
+                // Display public key
+                document.getElementById("publicKeyDisplay").textContent = publicKey;
+
+                // Display private key
+                document.getElementById("privateKeyDisplay").textContent = privateKey;
+            } else {
+                alert("No user data found.");
+            }
+        }
+
+        // Call the function to display keys when the page loads
+        window.addEventListener("load", displayKeys);
+    </script>
+</body>
+
+</html>
